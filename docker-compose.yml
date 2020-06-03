@@ -1,0 +1,25 @@
+version: "3"
+services:
+    smtp:
+        hostname: smtp
+        image: mailhog/mailhog
+        ports:
+            - 1025:1025
+            - 8025:8025
+        environment:
+            - TZ=CET
+
+    ejbca-server:
+        depends_on:
+            - smtp
+        image: primekey/ejbca-ce
+        volumes:
+           - ./dist/:/opt/primekey/wildfly-14.0.1.Final/standalone/deployments/
+           - ./dist/:/opt/primekey/wildfly-14.0.1.Final/standalone/deployment/
+ #          - ./dist/ejbca.ear:/opt/primekey/wildfly-14.0.1.Final/standalone/data/wsdl/ejbca.ear
+        ports:
+            - 80:8080
+            - 443:8443
+        environment:
+            DATABASE_JDBC_URL: jdbc:h2:/mnt/persistent/ejbcadb;DB_CLOSE_DELAY=-1
+            TLS_SETUP_ENABLED: simple

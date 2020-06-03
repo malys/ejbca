@@ -27,3 +27,5 @@
 /info.log
 /result.log
 /p12_2016
+
+*.class
