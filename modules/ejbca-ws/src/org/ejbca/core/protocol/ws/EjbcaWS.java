@@ -44,11 +44,14 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.jws.WebService;
 import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
 import javax.xml.bind.DatatypeConverter;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.ws.WebServiceContext;
 import javax.xml.ws.handler.MessageContext;
 
+import jdk.nashorn.internal.objects.annotations.Getter;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
@@ -179,6 +182,7 @@ import org.ejbca.util.query.IllegalQueryException;
  */
 @Stateless
 @WebService(name="EjbcaWS", serviceName="EjbcaWSService", targetNamespace="http://ws.protocol.core.ejbca.org/", portName="EjbcaWSPort")	//portName="EjbcaWSPort" default
+@Path("/")
 public class EjbcaWS implements IEjbcaWS {
 	@Resource
 	private WebServiceContext wsContext;
@@ -333,7 +337,8 @@ public class EjbcaWS implements IEjbcaWS {
             logger.flush();
         }
 	}
-
+    @Path("/")
+    @GET
     @Override
 	public List<UserDataVOWS> findUser(UserMatch usermatch) throws AuthorizationDeniedException, IllegalQueryException, EjbcaException, EndEntityProfileNotFoundException {
     	if (log.isDebugEnabled()) {
